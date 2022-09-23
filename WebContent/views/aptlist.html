@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>구해줘 홈즈</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon" />
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet" />
+
+    <!-- =======================================================
+  * Template Name: EstateAgency - v4.8.0
+  * Template URL: https://bootstrapmade.com/real-estate-agency-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  </head>
+
+  <body>
+    <!-- ======= Property Search Section ======= -->
+    <div class="click-closed"></div>
+    <!--/ Form Search Star /-->
+    <div class="box-collapse" id="modal" style="display: none">
+      <div class="title-box-d">
+        <h3 class="title-d">아파트 매매 정보 검색</h3>
+      </div>
+      <span class="close-box-collapse right-boxed bi bi-x"></span>
+      <div class="box-collapse-wrap form">
+        <form class="form-a">
+          <div class="row">
+            <!-- <div class="col-md-12 mb-2">
+              <div class="form-group">
+                <label class="pb-2" for="Type">Keyword</label>
+                <input
+                  type="text"
+                  class="form-control form-control-lg form-control-a"
+                  placeholder="Keyword"
+                />
+              </div>
+            </div> -->
+            <div class="col-md-6 mb-2">
+              <div class="form-group mt-3">
+                <label class="pb-2" for="Type">도시</label>
+                <select class="form-control form-select form-control-a" id="sido">
+                  <option value="">시도 선택</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="form-group mt-3">
+                <label class="pb-2" for="city">구군</label>
+                <select class="form-control form-select form-control-a" id="gugun">
+                  <option value="??">구군선택</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="form-group mt-3">
+                <label class="pb-2" for="bedrooms">동</label>
+                <select class="form-control form-select form-control-a" id="dong">
+                  <option value="">동선택</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="form-group mt-3">
+                <label class="pb-2" for="bathrooms">연도</label>
+                <select class="form-control form-select form-control-a" id="year"></select>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <div class="form-group mt-3">
+                <label class="pb-2" for="price">월</label>
+                <select class="form-control form-select form-control-a" id="month">
+                  <option value="">매매월선택</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <button type="button" class="btn btn-b" id="apt-btn">가져오기</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script>
+      document.querySelector("#apt-btn").addEventListener("click", function () {
+        let sidoSel = document.querySelector("#sido");
+        let sido = sidoSel[sidoSel.selectedIndex].innerText;
+        let gugunSel = document.querySelector("#gugun");
+        let gugun = gugunSel[gugunSel.selectedIndex].innerText;
+        let dongSel = document.querySelector("#dong");
+        let dong = dongSel[dongSel.selectedIndex].innerText;
+        let regCode = gugunSel[gugunSel.selectedIndex].value.substr(0, 5);
+        let yearSel = document.querySelector("#year");
+        let year = yearSel[yearSel.selectedIndex].value;
+        let monthSel = document.querySelector("#month");
+        let month = monthSel[monthSel.selectedIndex].value;
+        let dealYM = year + month;
+
+        var data = {
+          sido: sido,
+          gugunSel: gugunSel,
+          gugun: gugun,
+          dong: dong,
+          regCode: regCode,
+          yearSel: yearSel,
+          year: year,
+          monthSel: monthSel,
+          month: month,
+          dealYM: dealYM,
+        };
+        localStorage.setItem("data", JSON.stringify(data));
+        window.location = "aptlist.html";
+      });
+
+      let date = new Date();
+
+      function run() {
+        // console.log("run run");
+        let yearEl = document.querySelector("#year");
+        let yearOpt = `<option value="">매매년도선택</option>`;
+        let year = date.getFullYear();
+        for (let i = year; i > year - 20; i--) {
+          yearOpt += `<option value="${i}">${i}년</option>`;
+        }
+        yearEl.innerHTML = yearOpt;
+
+        // 브라우저가 열리면 시도정보 얻기.
+        sendRequest("sido", "*00000000");
+        // document.querySelector("#sido").innerHTML = `<option value="">${data.sido}</option>`;
+      }
+
+      document.querySelector("#year").addEventListener("change", function () {
+        let month = date.getMonth() + 1;
+        let monthEl = document.querySelector("#month");
+        let monthOpt = `<option value="">매매월선택</option>`;
+        let yearSel = document.querySelector("#year");
+        let m = yearSel[yearSel.selectedIndex].value == date.getFullYear() ? month : 13; // date.getFullYear() 현재년도
+        for (let i = 1; i < m; i++) {
+          monthOpt += `<option value="${i < 10 ? "0" + i : i}">${i}월</option>`;
+        }
+        monthEl.innerHTML = monthOpt;
+      });
+
+      // https://juso.dev/docs/reg-code-api/
+      // let url = "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes";
+      // let regcode = "*00000000";
+      // 전국 특별/광역시, 도
+      // https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=*00000000
+
+      // 시도가 바뀌면 구군정보 얻기.
+      document.querySelector("#sido").addEventListener("change", function () {
+        if (this[this.selectedIndex].value) {
+          let regcode = this[this.selectedIndex].value.substr(0, 2) + "*00000";
+          sendRequest("gugun", regcode);
+        } else {
+          initOption("gugun");
+          initOption("dong");
+        }
+      });
+
+      // 구군이 바뀌면 동정보 얻기.
+      document.querySelector("#gugun").addEventListener("change", function () {
+        if (this[this.selectedIndex].value) {
+          let regcode = this[this.selectedIndex].value.substr(0, 5) + "*";
+          sendRequest("dong", regcode);
+        } else {
+          initOption("dong");
+        }
+      });
+
+      function sendRequest(selid, regcode) {
+        const url = "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes";
+        let params = "regcode_pattern=" + regcode + "&is_ignore_zero=true";
+        fetch(`${url}?${params}`)
+          .then((response) => response.json())
+          .then((data) => addOption(selid, data));
+      }
+
+      function addOption(selid, data) {
+        let opt = ``;
+        initOption(selid);
+        switch (selid) {
+          case "sido":
+            opt += `<option value="">시도선택</option>`;
+            data.regcodes.forEach(function (regcode) {
+              opt += `
+        <option value="${regcode.code}">${regcode.name}</option>
+        `;
+            });
+            break;
+          case "gugun":
+            opt += `<option value="">구군선택</option>`;
+            for (let i = 0; i < data.regcodes.length; i++) {
+              if (i != data.regcodes.length - 1) {
+                if (
+                  data.regcodes[i].name.split(" ")[1] == data.regcodes[i + 1].name.split(" ")[1] &&
+                  data.regcodes[i].name.split(" ").length !=
+                    data.regcodes[i + 1].name.split(" ").length
+                ) {
+                  data.regcodes.splice(i, 1);
+                  i--;
+                }
+              }
+            }
+            let name = "";
+            data.regcodes.forEach(function (regcode) {
+              if (regcode.name.split(" ").length == 2) name = regcode.name.split(" ")[1];
+              else name = regcode.name.split(" ")[1] + " " + regcode.name.split(" ")[2];
+              opt += `
+        <option value="${regcode.code}">${name}</option>
+        `;
+            });
+            break;
+          case "dong":
+            opt += `<option value="">동선택</option>`;
+            let idx = 2;
+            data.regcodes.forEach(function (regcode) {
+              if (regcode.name.split(" ").length != 3) idx = 3;
+              opt += `
+        <option value="${regcode.code}">${regcode.name.split(" ")[idx]}</option>
+        `;
+            });
+        }
+        document.querySelector(`#${selid}`).innerHTML = opt;
+      }
+
+      function initOption(selid) {
+        let options = document.querySelector(`#${selid}`);
+        options.length = 0;
+        // let len = options.length;
+        // for (let i = len - 1; i >= 0; i--) {
+        //   options.remove(i);
+        // }
+      }
+    </script>
+    <!-- End Property Search Section -->
+
+    <!-- ======= Header/Navbar ======= -->
+    <nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top">
+      <div class="container">
+        <button
+          class="navbar-toggler collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarDefault"
+          aria-controls="navbarDefault"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a class="navbar-brand text-brand" href="index.html"
+          >구해줘 <span class="color-b">Home</span></a
+        >
+
+        <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+          <ul class="navbar-nav">
+            <li class="nav-item" id="login-menu">
+              <a class="nav-link" href="login.html">로그인</a>
+            </li>
+
+            <li class="nav-item" id="logout-menu" style="display: none">
+              <a class="nav-link" onclick="logout()">로그아웃</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" onclick="goMyPage()">마이페이지</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" onclick="goUserInfo()">회원조회</a>
+            </li>
+            <!-- drop down 예시-->
+            <!-- <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >Pages</a
+              >
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="property-single.html">Property Single</a>
+                <a class="dropdown-item" href="blog-single.html">Blog Single</a>
+                <a class="dropdown-item" href="agents-grid.html">Agents Grid</a>
+                <a class="dropdown-item" href="agent-single.html">Agent Single</a>
+              </div>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="blog-grid.html">공지사항</a>
+            </li>
+          </ul>
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarTogglerDemo01"
+          id="search-btn"
+        >
+          <i class="bi bi-search"></i>
+          <span style="margin-left: 10px">아파트 매매 검색</span>
+        </button>
+      </div>
+    </nav>
+    <script>
+      document.getElementById("search-btn").addEventListener("mouseover", function () {
+        document.getElementById("modal").setAttribute("style", "display: ;");
+      });
+    </script>
+    <!-- End Header/Navbar -->
+    <!-- 코드 내용 추가할곳-->
+    <main id="main">
+      <div style="height: 140px"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="title-box-d">
+              <h3 class="title-d"></h3>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button
+              type="button"
+              id="btn-map"
+              class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse float-end"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarTogglerDemo01"
+            >
+              <i class="bi bi-map"></i>
+              <span style="margin-left: 10px">지도</span>
+            </button>
+            <button
+              type="button"
+              id="btn-list"
+              style="display: none"
+              class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse float-end"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarTogglerDemo01"
+            >
+              <i class="bi bi-table"></i>
+              <span style="margin-left: 10px">테이블</span>
+            </button>
+          </div>
+        </div>
+        <table class="table table-hover text-center" id="table" style="display: none">
+          <tr>
+            <th>아파트이름</th>
+            <th>층</th>
+            <th>면적</th>
+            <th>법정동</th>
+            <th>거래금액</th>
+          </tr>
+          <tbody id="aptlist"></tbody>
+        </table>
+        <div class="row col-md-12" id="div-map" style="display: none">
+          <div id="map" style="width: 100%; height: 500px; background-color: gray"></div>
+        </div>
+        <script
+          type="text/javascript"
+          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d20a0f57bf0b323a9aa5db393539fb23"
+        ></script>
+        <script>
+          var container = document.getElementById("map"); //지도를 담을 영역의 DOM 레퍼런스
+          var options = {
+            //지도를 생성할 때 필요한 기본 옵션
+            center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 3, //지도의 레벨(확대, 축소 정도)
+          };
+
+          var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+        </script>
+        <script>
+          document.querySelector("#btn-map").addEventListener("click", function () {
+            console.log("hihi");
+            document.querySelector("table").setAttribute("style", "display: none");
+            document.getElementById("div-map").setAttribute("style", "display: ;");
+            window.setTimeout(function () {
+              map.relayout();
+            }, 0);
+            document.getElementById("btn-map").setAttribute("style", "display: none");
+            document.getElementById("btn-list").setAttribute("style", "display: ;");
+          });
+          document.querySelector("#btn-list").addEventListener("click", function () {
+            console.log("hi2");
+            document.getElementById("div-map").setAttribute("style", "display: none");
+            document.getElementById("table").setAttribute("style", "display: ;");
+            document.getElementById("btn-list").setAttribute("style", "display: none");
+            document.getElementById("btn-map").setAttribute("style", "display: ;");
+            reload();
+          });
+        </script>
+      </div>
+      <script>
+        var data = JSON.parse(localStorage.getItem("data"));
+        // console.log(data);
+        // console.log(data.dealYM);
+
+        function reload() {
+          run();
+          let url =
+            "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
+          let gugunSel = data.gugunSel;
+          let regCode = data.regCode;
+          let yearSel = data.yearSel;
+          let year = data.year;
+          let monthSel = data.monthSel;
+          let month = data.month;
+          let dealYM = data.dealYM;
+
+          let sido = data.sido;
+          let gugun = data.gugun;
+          let title = document.getElementsByClassName("title-d");
+          title[1].innerHTML = `<span class="color-b">${sido}</span> ${gugun} 검색결과`;
+
+          let queryParams =
+            encodeURIComponent("serviceKey") +
+            "=" +
+            "K53TSfkDX1TM5hDGBim5Re388tVcX7HzABkRkrGbuIYH8tb5auSgi1Bv2LQgpW10UylBR87BoQFFpckP2TWn1g%3D%3D"; /*Service Key*/
+          queryParams +=
+            "&" +
+            encodeURIComponent("LAWD_CD") +
+            "=" +
+            encodeURIComponent(regCode); /*아파트소재 구군*/
+          queryParams +=
+            "&" + encodeURIComponent("DEAL_YMD") + "=" + encodeURIComponent(dealYM); /*조회년월*/
+          queryParams +=
+            "&" + encodeURIComponent("pageNo") + "=" + encodeURIComponent("1"); /*페이지번호*/
+          queryParams +=
+            "&" + encodeURIComponent("numOfRows") + "=" + encodeURIComponent("30"); /*페이지당건수*/
+
+          fetch(`${url}?${queryParams}`)
+            .then((response) => response.text())
+            .then((data) => makeList(data));
+        }
+
+        window.onload = function () {
+          // login 여부에 따라 메뉴바 변경
+          let auth = window.localStorage.getItem("auth");
+          if (auth != undefined) {
+            let login = document.getElementById("login-menu");
+            let logout = document.getElementById("logout-menu");
+            login.style.display = "none";
+            logout.style.display = "";
+          }
+
+          run();
+          let url =
+            "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev";
+          let gugunSel = data.gugunSel;
+          let regCode = data.regCode;
+          let yearSel = data.yearSel;
+          let year = data.year;
+          let monthSel = data.monthSel;
+          let month = data.month;
+          let dealYM = data.dealYM;
+
+          let sido = data.sido;
+          let gugun = data.gugun;
+          let title = document.getElementsByClassName("title-d");
+          title[1].innerHTML = `<span class="color-b">${sido}</span> ${gugun} 검색결과`;
+
+          let queryParams =
+            encodeURIComponent("serviceKey") +
+            "=" +
+            "K53TSfkDX1TM5hDGBim5Re388tVcX7HzABkRkrGbuIYH8tb5auSgi1Bv2LQgpW10UylBR87BoQFFpckP2TWn1g%3D%3D"; /*Service Key*/
+          queryParams +=
+            "&" +
+            encodeURIComponent("LAWD_CD") +
+            "=" +
+            encodeURIComponent(regCode); /*아파트소재 구군*/
+          queryParams +=
+            "&" + encodeURIComponent("DEAL_YMD") + "=" + encodeURIComponent(dealYM); /*조회년월*/
+          queryParams +=
+            "&" + encodeURIComponent("pageNo") + "=" + encodeURIComponent("1"); /*페이지번호*/
+          queryParams +=
+            "&" + encodeURIComponent("numOfRows") + "=" + encodeURIComponent("30"); /*페이지당건수*/
+
+          fetch(`${url}?${queryParams}`)
+            .then((response) => response.text())
+            .then((data) => makeList(data));
+        };
+
+        function makeList(data) {
+          document.querySelector("table").setAttribute("style", "display: ;");
+          let tbody = document.querySelector("#aptlist");
+          let parser = new DOMParser();
+          const xml = parser.parseFromString(data, "application/xml");
+          // console.log(xml);
+          initTable();
+          let apts = xml.querySelectorAll("item");
+          apts.forEach((apt) => {
+            console.log(apt);
+            let tr = document.createElement("tr");
+
+            let nameTd = document.createElement("td");
+            nameTd.appendChild(document.createTextNode(apt.querySelector("아파트").textContent));
+            tr.appendChild(nameTd);
+
+            let floorTd = document.createElement("td");
+            floorTd.appendChild(document.createTextNode(apt.querySelector("층").textContent));
+            tr.appendChild(floorTd);
+
+            let areaTd = document.createElement("td");
+            areaTd.appendChild(document.createTextNode(apt.querySelector("전용면적").textContent));
+            tr.appendChild(areaTd);
+
+            let dongTd = document.createElement("td");
+            dongTd.appendChild(document.createTextNode(apt.querySelector("법정동").textContent));
+            tr.appendChild(dongTd);
+
+            let priceTd = document.createElement("td");
+            priceTd.appendChild(
+              document.createTextNode(apt.querySelector("거래금액").textContent + "만원")
+            );
+            priceTd.classList.add("text-end");
+            tr.appendChild(priceTd);
+
+            tbody.appendChild(tr);
+          });
+        }
+
+        function initTable() {
+          let tbody = document.querySelector("#aptlist");
+          let len = tbody.rows.length;
+          for (let i = len - 1; i >= 0; i--) {
+            tbody.deleteRow(i);
+          }
+        }
+      </script>
+    </main>
+    <!-- start footer -->
+    <footer class="bg-white">
+      <div class="container-fluid">
+        <!--  -->
+        <!-- <div style="height: 70px"></div> -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="socials-a">
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <a href="#">
+                    <i class="bi bi-facebook" aria-hidden="true"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#">
+                    <i class="bi bi-twitter" aria-hidden="true"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#">
+                    <i class="bi bi-instagram" aria-hidden="true"></i>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#">
+                    <i class="bi bi-linkedin" aria-hidden="true"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="copyright-footer">
+              <p class="copyright color-text-a">
+                &copy; Copyright
+                <span class="color-a">by SSAFY</span>. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- End  Footer -->
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"
+      ><i class="bi bi-arrow-up-short"></i
+    ></a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/user.js"></script>
+  </body>
+</html>
