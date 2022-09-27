@@ -1,212 +1,65 @@
-/**
-* Template Name: EstateAgency - v4.8.0
-* Template URL: https://bootstrapmade.com/real-estate-agency-bootstrap-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
+/*
+	Strongly Typed by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
-(function() {
-  "use strict";
 
-  /**
-   * Easy selector helper function
-   */
-  const select = (el, all = false) => {
-    el = el.trim()
-    if (all) {
-      return [...document.querySelectorAll(el)]
-    } else {
-      return document.querySelector(el)
-    }
-  }
+(function($) {
 
-  /**
-   * Easy event listener function
-   */
-  const on = (type, el, listener, all = false) => {
-    let selectEl = select(el, all)
-    if (selectEl) {
-      if (all) {
-        selectEl.forEach(e => e.addEventListener(type, listener))
-      } else {
-        selectEl.addEventListener(type, listener)
-      }
-    }
-  }
+	var	$window = $(window),
+		$body = $('body');
 
-  /**
-   * Easy on scroll event listener 
-   */
-  const onscroll = (el, listener) => {
-    el.addEventListener('scroll', listener)
-  }
+	// Breakpoints.
+		breakpoints({
+			xlarge:  [ '1281px',  '1680px' ],
+			large:   [ '981px',   '1280px' ],
+			medium:  [ '737px',   '980px'  ],
+			small:   [ null,      '736px'  ]
+		});
 
-  /**
-   * Toggle .navbar-reduce
-   */
-  let selectHNavbar = select('.navbar-default')
-  if (selectHNavbar) {
-    onscroll(document, () => {
-      if (window.scrollY > 100) {
-        selectHNavbar.classList.add('navbar-reduce')
-        selectHNavbar.classList.remove('navbar-trans')
-      } else {
-        selectHNavbar.classList.remove('navbar-reduce')
-        selectHNavbar.classList.add('navbar-trans')
-      }
-    })
-  }
+	// Play initial animations on page load.
+		$window.on('load', function() {
+			window.setTimeout(function() {
+				$body.removeClass('is-preload');
+			}, 100);
+		});
 
-  /**
-   * Back to top button
-   */
-  let backtotop = select('.back-to-top')
-  if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active')
-      } else {
-        backtotop.classList.remove('active')
-      }
-    }
-    window.addEventListener('load', toggleBacktotop)
-    onscroll(document, toggleBacktotop)
-  }
+	// Dropdowns.
+		$('#nav > ul').dropotron({
+			mode: 'fade',
+			noOpenerFade: true,
+			hoverDelay: 150,
+			hideDelay: 350
+		});
 
-  /**
-   * Preloader
-   */
-  let preloader = select('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove()
-    });
-  }
+	// Nav.
 
-  /**
-   * Search window open/close
-   */
-  let body = select('body');
-  on('click', '.navbar-toggle-box', function(e) {
-    e.preventDefault()
-    body.classList.add('box-collapse-open')
-    body.classList.remove('box-collapse-closed')
-  })
+		// Title Bar.
+			$(
+				'<div id="titleBar">' +
+					'<a href="#navPanel" class="toggle"></a>' +
+				'</div>'
+			)
+				.appendTo($body);
 
-  on('click', '.close-box-collapse', function(e) {
-    e.preventDefault()
-    body.classList.remove('box-collapse-open')
-    body.classList.add('box-collapse-closed')
-  })
+		// Panel.
+			$(
+				'<div id="navPanel">' +
+					'<nav>' +
+						$('#nav').navList() +
+					'</nav>' +
+				'</div>'
+			)
+				.appendTo($body)
+				.panel({
+					delay: 500,
+					hideOnClick: true,
+					hideOnSwipe: true,
+					resetScroll: true,
+					resetForms: true,
+					side: 'left',
+					target: $body,
+					visibleClass: 'navPanel-visible'
+				});
 
-  /**
-   * Intro Carousel
-   */
-  new Swiper('.intro-carousel', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 2000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
-
-  /**
-   * Property carousel
-   */
-  new Swiper('#property-carousel', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.propery-carousel-pagination',
-      type: 'bullets',
-      clickable: true
-    },
-    breakpoints: {
-      320: {
-        slidesPerView: 1,
-        spaceBetween: 20
-      },
-
-      1200: {
-        slidesPerView: 3,
-        spaceBetween: 20
-      }
-    }
-  });
-
-  /**
-   * News carousel
-   */
-  new Swiper('#news-carousel', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.news-carousel-pagination',
-      type: 'bullets',
-      clickable: true
-    },
-    breakpoints: {
-      320: {
-        slidesPerView: 1,
-        spaceBetween: 20
-      },
-
-      1200: {
-        slidesPerView: 3,
-        spaceBetween: 20
-      }
-    }
-  });
-
-  /**
-   * Testimonial carousel
-   */
-  new Swiper('#testimonial-carousel', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.testimonial-carousel-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
-
-  /**
-   * Property Single carousel
-   */
-  new Swiper('#property-single-carousel', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    pagination: {
-      el: '.property-single-carousel-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
-
-})()
+})(jQuery);

@@ -2,52 +2,34 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<nav class="navbar navbar-default navbar-trans navbar-expand-lg">
+<section id="header">
 	<div class="container">
-		<button class="navbar-toggler collapsed" type="button"
-			data-bs-toggle="collapse" data-bs-target="#navbarDefault"
-			aria-controls="navbarDefault" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span></span> <span></span> <span></span>
-		</button>
-		<a class="navbar-brand text-brand" href="${root }/index.jsp">구해줘 <span
-			class="color-b">Home</span>
-		</a>
 
-		<div class="navbar-collapse collapse justify-content-center"
-			id="navbarDefault">
-			<ul class="navbar-nav">
-				<c:if test="${auth ne null}">
-					<li class="nav-item" id="login-menu" style="display: none"><a
-						class="nav-link" id="btn-mvlogin">로그인</a></li>
-					<li class="nav-item" id="logout-menu" style="display: block"><a
-						class="nav-link" id="btn-logout">로그아웃</a></li>
-				</c:if>
-				<c:if test="${auth eq null }">
-					<li class="nav-item" id="login-menu" style="display: block"><a
-						class="nav-link" id="btn-mvlogin">로그인</a></li>
-					<li class="nav-item" id="logout-menu" style="display: none"><a
-						class="nav-link" id="btn-logout">로그아웃</a></li>
-				</c:if>
+		<!-- Logo -->
+		<h1 id="logo">
+			<a href="index.jsp">구해줘 홈즈🏚</a>
+		</h1>
+		<p>손쉽게 매매 가능한 아파트 검색을 체험하세요</p>
 
-				<li class="nav-item"><a class="nav-link" id="btn-mvmypage">마이페이지</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" id="btn-mvusersearch">회원조회</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" id="btn-mvnotice">공지사항</a>
-				</li>
+		<!-- Nav -->
+		<nav id="nav">
+			<ul>
+				<c:if test="${auth ne null}"> <!-- 로그인이 되어있으면 -->
+					<li style="display: inline-block"><a class="icon solid fa-cog" href="no-sidebar.html" id="btn-mvlogin"><span>로그인</span></a></li>
+					<li style="display: none"><a class="icon solid fa-cog" href="no-sidebar.html" id="btn-logout"><span>로그아웃</span></a></li>
+				</c:if>
+				<c:if test="${auth eq null }"> <!-- 로그인 안돼있으면 -->
+					<li style="display: none"><a class="icon solid fa-cog" href="no-sidebar.html" id="btn-mvlogin"><span>로그인</span></a></li>
+					<li style="display: inline-block"><a class="icon solid fa-cog" href="no-sidebar.html" id="btn-logout"><span>로그아웃</span></a></li>
+				</c:if>
+				<li><a class="icon fa-chart-bar" href="no-sidebar.html"><span>마이페이지</span></a></li>
+				<li><a class="icon solid fa-sitemap" href="no-sidebar.html"><span>회원조회</span></a></li>
+				<li><a class="icon solid fa-home" href="no-sidebar.html"><span>아파트 매매 검색</span></a></li>
 			</ul>
-		</div>
+		</nav>
 
-		<button type="button"
-			class="btn btn-b-n navbar-toggle-box navbar-toggle-box-collapse"
-			data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
-			id="search-btn">
-			<i class="bi bi-search"></i> <span style="margin-left: 10px">아파트
-				매매 검색</span>
-		</button>
 	</div>
-</nav>
+</section>
 <script>
 	document.getElementById("search-btn").addEventListener("click", function() {
 		location.href = "${root}/apt?act=mvsearch&sidoName=&gugunName=&dongName=";

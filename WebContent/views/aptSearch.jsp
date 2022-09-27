@@ -111,7 +111,7 @@
 	 }); 
 
 	 let date = new Date();
-
+*/
 	  window.onload = function () {
 	   let yearEl = document.querySelector("#year");
 	   let yearOpt = `<option value="">매매년도선택</option>`;
@@ -121,9 +121,9 @@
 	   }
 	   yearEl.innerHTML = yearOpt;
 	   
-	   
 	 };
 
+		/*   
 	 document.querySelector("#year").addEventListener("change", function () {
 	   let month = date.getMonth() + 1;
 	   let monthEl = document.querySelector("#month");

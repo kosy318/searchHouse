@@ -1,201 +1,129 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE HTML>
+<!--
+	Strongly Typed by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
 <%@ include file="/common/header.jsp"%>
-</head>
+<body class="homepage is-preload">
+<%@ include file="/common/nav.jsp"%>
+	<div id="page-wrapper">
 
-<body>
-
-
-	<%@ include file="/common/nav.jsp"%>
-
-	<!-- ======= Intro Section ======= -->
-	<!-- slide start -->
-	<div class="intro intro-carousel swiper position-relative">
-		<div class="swiper-wrapper">
-			<div class="swiper-slide carousel-item-a intro-item bg-image"
-				style="background-image: url(assets/img/slide-1.jpeg)">
-				<div class="overlay overlay-a"></div>
-				<div class="intro-content display-table">
-					<div class="table-cell">
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-8">
-									<div class="intro-body">
-										<h1 class="intro-title mb-4">
-											<span class="color-b">시</span>그니엘 레지던스
-										</h1>
-										<p class="intro-title-top">
-											서울특별시 송파구 <br /> 올림픽로 300
-										</p>
-									</div>
-								</div>
+		<!-- Features -->
+		<section id="features">
+			<div class="container">
+				<header>
+					<h2>
+						<strong>아파트 매매</strong>
+					</h2>
+				</header>
+				<div class="row aln-center">
+					<c:if test="${ !empty top3 }">
+						<c:forEach items="${ top3 }" var="t">
+							<div class="col-4 col-6-medium col-12-small">
+		
+								<!-- Feature -->
+								<section>
+									<a href="#" class="image featured"><img
+										src="images/pic01.jpg" alt="" /></a>
+									<header>
+										<h3>${ t.dongName } ${ t.aptName }</h3>
+									</header>
+									<p>${ t.dealAmount }
+									</p>
+								</section>
 							</div>
-						</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${ empty top3 }">
+						<c:redirect url="/find3.home"/>
+					</c:if>
+				
+					<div class="col-12">
+						<ul class="actions">
+							<li><a href="#" class="button icon solid fa-file">아파트 매매 검색</a></li>
+						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="swiper-slide carousel-item-a intro-item bg-image"
-				style="background-image: url(assets/img/slide-2.jpeg)">
-				<div class="overlay overlay-a"></div>
-				<div class="intro-content display-table">
-					<div class="table-cell">
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-8">
-									<div class="intro-body">
-										<h1 class="intro-title mb-4">
-											<span class="color-b">나</span>인원 한남
-										</h1>
-										<p class="intro-title-top">
-											서울특별시 용산구 <br /> 한남대로 91
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
+		</section>
+
+		<!-- Banner -->
+		<section id="banner">
+			<div class="container">
+				<p>공지사항</p>
+			</div>
+		</section>
+
+		<!-- Main -->
+		<section id="main">
+			<div class="container">
+				<div>
+					<div class="col-4 col-12-medium">
+
+						<!-- Excerpts -->
+						<section>
+							<ul class="divided">
+								<li>
+									<!-- Excerpt -->
+									<article class="box excerpt">
+										<header>
+											<span class="date">July 30</span>
+											<h3>
+												<a href="#">Just another post</a>
+											</h3>
+										</header>
+										<p>Lorem ipsum dolor odio facilisis convallis. Etiam non
+											nunc vel est suscipit convallis non id orci lorem ipsum sed
+											magna consequat feugiat lorem dolore.</p>
+									</article>
+
+								</li>
+								<li>
+									<!-- Excerpt -->
+									<article class="box excerpt">
+										<header>
+											<span class="date">July 28</span>
+											<h3>
+												<a href="#">And another post</a>
+											</h3>
+										</header>
+										<p>Lorem ipsum dolor odio facilisis convallis. Etiam non
+											nunc vel est suscipit convallis non id orci lorem ipsum sed
+											magna consequat feugiat lorem dolore.</p>
+									</article>
+
+								</li>
+								<li>
+									<!-- Excerpt -->
+									<article class="box excerpt">
+										<header>
+											<span class="date">July 24</span>
+											<h3>
+												<a href="#">One more post</a>
+											</h3>
+										</header>
+										<p>Lorem ipsum dolor odio facilisis convallis. Etiam non
+											nunc vel est suscipit convallis non id orci lorem ipsum sed
+											magna consequat feugiat lorem dolore.</p>
+									</article>
+
+								</li>
+							</ul>
+						</section>
+
 					</div>
+
 				</div>
 			</div>
-			<div class="swiper-slide carousel-item-a intro-item bg-image"
-				style="background-image: url(assets/img/slide-3.jpeg)">
-				<div class="overlay overlay-a"></div>
-				<div class="intro-content display-table">
-					<div class="table-cell">
-						<div class="container">
-							<div class="row">
-								<div class="col-lg-8">
-									<div class="intro-body">
-										<h1 class="intro-title mb-4">
-											<span class="color-b">P</span>H 129
-										</h1>
-										<p class="intro-title-top">
-											서울특별시 강남구<br /> 청담동 129
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="swiper-pagination"></div>
-	</div>
-	<!-- slide end -->
-	<!-- End Intro Section -->
-
-	<main id="main"> <!-- ======= Latest News Section ======= -->
-	<section class="section-news section-t8">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="title-wrap d-flex justify-content-between">
-						<div class="title-box">
-							<h2 class="title-a">공지사항</h2>
-						</div>
-						<div class="title-link">
-							<a href="blog-grid.html">All Posts <span
-								class="bi bi-chevron-right"></span>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div id="news-carousel" class="swiper">
-				<div class="swiper-wrapper">
-					<div class="carousel-item-c swiper-slide">
-						<div class="card-box-b card-shadow news-box">
-							<div class="img-box-b">
-								<img src="assets/img/post-3.jpg" alt="" class="img-b img-fluid" />
-							</div>
-							<div class="card-overlay">
-								<div class="card-header-b">
-									<div class="card-category-b">
-										<a href="#" class="category-b">House</a>
-									</div>
-									<div class="card-title-b">
-										<h2 class="title-2">
-											<a href="blog-single.html">지혜롭게
-												내 집 마련하기<br /> 팁
-											</a>
-										</h2>
-									</div>
-									<div class="card-date">
-										<span class="date-b">2022-09-07</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End carousel item -->
-
-					<div class="carousel-item-c swiper-slide">
-						<div class="card-box-b card-shadow news-box">
-							<div class="img-box-b">
-								<img src="assets/img/post-5.jpg" alt="" class="img-b img-fluid" />
-							</div>
-							<div class="card-overlay">
-								<div class="card-header-b">
-									<div class="card-category-b">
-										<a href="#" class="category-b">Home</a>
-									</div>
-									<div class="card-title-b">
-										<h2 class="title-2">
-											<a href="blog-single2.html">벼락
-												부자 되는 법 <br /> 팁
-											</a>
-										</h2>
-									</div>
-									<div class="card-date">
-										<span class="date-b">2022-09-07</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End carousel item -->
-					<div class="carousel-item-c swiper-slide">
-						<div class="card-box-b card-shadow news-box">
-							<div class="img-box-b">
-								<img src="assets/img/post-7.jpg" alt="" class="img-b img-fluid" />
-							</div>
-							<div class="card-overlay">
-								<div class="card-header-b">
-									<div class="card-category-b">
-										<a href="#" class="category-b">Home</a>
-									</div>
-									<div class="card-title-b">
-										<h2 class="title-2">
-											<a href="blog-single3.html">강남
-												불패 <br /> 역사
-											</a>
-										</h2>
-									</div>
-									<div class="card-date">
-										<span class="date-b">2022-09-07</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End carousel item -->
-				</div>
-			</div>
-
-			<div class="news-carousel-pagination carousel-pagination"></div>
-		</div>
-	</section>
-	<!-- End Latest News Section --> 
-	</main>
-	<!-- End #main -->
-
-	<!-- footer -->
+		</section>
 
 	<%@ include file="/common/footer.jsp" %>
+		
 
+	</div>
 </body>
 </html>
