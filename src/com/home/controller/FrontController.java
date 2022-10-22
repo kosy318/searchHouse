@@ -33,6 +33,10 @@ public class FrontController extends HttpServlet {
     		ucon.loginForm(request, response);
     	} else if(reqString.equals("/loginProcess.home")) {
     		ucon.loginProcess(request, response);
+    	} else if(reqString.equals("/logout.home")) {
+    		ucon.logout(request, response);
+    	} else if(reqString.equals("/dealSearch.home")) {
+    		hcon.dealSearch(request, response);
     	}
     }
     

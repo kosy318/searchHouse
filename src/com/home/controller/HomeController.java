@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,6 +28,11 @@ public class HomeController {
 		session.setAttribute("top3", list);
 		
 		response.sendRedirect(request.getContextPath());
+	}
+
+	public void dealSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/views/dealSearch.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }

@@ -1,9 +1,9 @@
 package com.home.user.service;
 
-import com.home.user.dao.UserDao;
+import java.sql.SQLException;
 
 public interface UserService {
 	
-	public void login();
+	public String login(String id, String password) throws SQLException;
 	
 }

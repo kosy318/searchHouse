@@ -24,10 +24,7 @@
 
 button{
 	margin-top: 1em;
-}
-
-label{
-	margin-top: 4px;
+	width: 200px;
 }
 </style>
 </head>
@@ -48,7 +45,7 @@ label{
 				id="floatingPassword" name="password"
 				placeholder="Password">
 		</div>
-		<div class="row">
+		<div style="display: flex; justify-content: space-around;">
 			<div>
 				<button id="btn-login"
 					type="button" onclick="login()">로그인</button>
