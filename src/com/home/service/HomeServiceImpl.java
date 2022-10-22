@@ -1,11 +1,11 @@
-package com.ssafy.home.service;
+package com.home.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.ssafy.home.dao.HomeDao;
-import com.ssafy.home.dao.HomeDaoImpl;
-import com.ssafy.home.model.DealInfo;
+import com.home.dao.HomeDao;
+import com.home.dao.HomeDaoImpl;
+import com.home.model.Home;
 
 public class HomeServiceImpl implements HomeService {
 	
@@ -16,7 +16,7 @@ public class HomeServiceImpl implements HomeService {
 	}
 
 	@Override
-	public ArrayList<DealInfo> find3() throws SQLException {
+	public ArrayList<Home> find3() throws SQLException {
 		return dao.find3();
 	}
 

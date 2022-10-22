@@ -9,7 +9,7 @@
 <html>
 <%@ include file="/common/header.jsp"%>
 <body class="homepage is-preload">
-<%@ include file="/common/nav.jsp"%>
+	<%@ include file="/common/nav.jsp"%>
 	<div id="page-wrapper">
 
 		<!-- Features -->
@@ -19,32 +19,35 @@
 					<h2>
 						<strong>아파트 매매</strong>
 					</h2>
+					<p>random 3</p>
 				</header>
 				<div class="row aln-center">
 					<c:if test="${ !empty top3 }">
-						<c:forEach items="${ top3 }" var="t">
+						<c:forEach begin="1" end="3" var="i">
 							<div class="col-4 col-6-medium col-12-small">
-		
 								<!-- Feature -->
 								<section>
-									<a href="#" class="image featured"><img
-										src="images/pic01.jpg" alt="" /></a>
 									<header>
-										<h3>${ t.dongName } ${ t.aptName }</h3>
+										<a href="#">
+											<h3>
+												<img src="images/${ i }.png" alt="" style="width: 20px" />&nbsp;&nbsp;${ top3[i-1].dong }&nbsp;&nbsp;
+												${ top3[i-1].apartmentName }
+											</h3>
+										</a>
 									</header>
-									<p>${ t.dealAmount }
-									</p>
+									<p>${ top3[i-1].dealAmount } 천 원</p>
 								</section>
 							</div>
 						</c:forEach>
 					</c:if>
 					<c:if test="${ empty top3 }">
-						<c:redirect url="/find3.home"/>
+						<c:redirect url="/main.home" />
 					</c:if>
-				
+
 					<div class="col-12">
 						<ul class="actions">
-							<li><a href="#" class="button icon solid fa-file">아파트 매매 검색</a></li>
+							<li><a href="#" class="button icon solid fa-file">아파트 매매
+									검색</a></li>
 						</ul>
 					</div>
 				</div>
@@ -121,8 +124,8 @@
 			</div>
 		</section>
 
-	<%@ include file="/common/footer.jsp" %>
-		
+		<%@ include file="/common/footer.jsp"%>
+
 
 	</div>
 </body>

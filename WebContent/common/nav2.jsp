@@ -3,17 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <section id="header">
-	<div class="container">
+	<div style="padding: 5em 0 5em 0;">
 
 		<!-- Logo -->
-		<h1 id="logo">
-			<a href="index.jsp">구해줘 홈즈🏚</a>
-		</h1>
-		<p>손쉽게 매매 가능한 아파트 검색을 체험하세요</p>
 
 		<!-- Nav -->
 		<nav id="nav">
 			<ul>
+		<li id="logo" class="icon">
+			<a href="index.jsp"><span style="color: #ed786a; font-size: 25px; font-weight: bold;">구해줘 홈즈</span></a>
+		</li>
 				<c:if test="${auth ne null}"> <!-- 로그인이 되어있으면 -->
 					<li style="display: inline-block"><a class="icon solid fa-cog" href="${ root }/login.home" id="btn-logout"><span>로그아웃</span></a></li>
 				</c:if>
