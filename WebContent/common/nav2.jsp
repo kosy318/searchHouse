@@ -27,33 +27,3 @@
 
 	</div>
 </section>
-<script>
-	document.getElementById("search-btn").addEventListener("click", function() {
-		location.href = "${root}/apt?act=mvsearch&sidoName=&gugunName=&dongName=";
-	});
-
-	// 회원가입 페이지로 이동
-	document.querySelector("#btn-logout").addEventListener("click", function() {
-		location.href = "${root}/user?act=logout";
-	});
-	document.querySelector("#btn-mvlogin").addEventListener("click",
-			function() {
-				location.href = "${root}/user?act=mvlogin";
-			});
-	document.querySelector("#btn-mvmypage").addEventListener("click",
-			function() {
-				console.log("mvMyPage");
-
-				location.href = "${root}/user?act=mvmypage";
-			});
-	document.querySelector("#btn-mvusersearch").addEventListener("click",
-			function() {
-				console.log("mv User Search");
-				location.href = "${root}/user?act=mvsearch";
-			});
-	document.querySelector("#btn-mvnotice").addEventListener("click",
-			function() {
-				console.log("mv Notice");
-				location.href = "${root}/notice?act=list";
-			});
-</script>

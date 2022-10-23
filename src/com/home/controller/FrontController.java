@@ -37,6 +37,8 @@ public class FrontController extends HttpServlet {
     		ucon.logout(request, response);
     	} else if(reqString.equals("/dealSearch.home")) {
     		hcon.dealSearch(request, response);
+    	} else if(reqString.equals("/getNames.home")) {
+    		hcon.getNames(request, response);
     	}
     }
     
